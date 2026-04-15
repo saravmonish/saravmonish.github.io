@@ -55,6 +55,20 @@
 }
 
 /* ============================================================
+   Scroll progress bar — fixed at very top, fills as you scroll
+   ============================================================ */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent);
+  z-index: 300;
+  transition: width 0.08s linear;
+}
+
+/* ============================================================
    Scroll fade-in — elements start invisible, JS adds .visible
    ============================================================ */
 .fade-up {
@@ -165,9 +179,21 @@ section {
   transition: color 0.12s ease;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+.nav-links a:hover {
   color: var(--text);
+}
+
+.nav-links a.active {
+  color: var(--accent);
+}
+
+.nav-links a.active::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+  margin-top: 3px;
 }
 
 .nav-toggle {

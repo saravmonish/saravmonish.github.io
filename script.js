@@ -14,6 +14,17 @@ navLinks.querySelectorAll('a').forEach(link => {
 });
 
 /* ============================================================
+   Scroll progress bar — fills as you scroll down the page
+   ============================================================ */
+const progressBar = document.getElementById('progress-bar');
+
+window.addEventListener('scroll', () => {
+  const scrolled  = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / maxScroll * 100) + '%';
+}, { passive: true });
+
+/* ============================================================
    Nav border appears only after scrolling past the hero
    ============================================================ */
 const nav = document.getElementById('nav');
