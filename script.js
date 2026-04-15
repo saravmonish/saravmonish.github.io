@@ -161,12 +161,12 @@ async function loadVisitorCount() {
 
   try {
     const res = await fetch(
-      'https://api.countapi.xyz/hit/monishsaravanan/portfolio-2025',
+      'https://api.counterapi.dev/v1/monishsaravanan/portfolio/up',
       { cache: 'no-store' }
     );
     if (!res.ok) throw new Error('API unavailable');
-    const { value } = await res.json();
-    const formatted  = Number(value).toLocaleString();
+    const { count } = await res.json();
+    const formatted  = Number(count).toLocaleString();
     heroEl.textContent   = formatted;
     footerEl.textContent = formatted + ' visits';
   } catch {
