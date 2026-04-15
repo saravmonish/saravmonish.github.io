@@ -65,7 +65,42 @@
   width: 0%;
   background: var(--accent);
   z-index: 300;
-  transition: width 0.08s linear;
+  /* No CSS transition — smoothness handled by JS lerp */
+}
+
+/* ============================================================
+   Back to top button
+   ============================================================ */
+#back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.15s ease;
+  z-index: 150;
+  pointer-events: none;
+}
+
+#back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#back-to-top:hover {
+  background: var(--border);
 }
 
 /* ============================================================

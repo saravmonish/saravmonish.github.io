@@ -14,24 +14,48 @@ navLinks.querySelectorAll('a').forEach(link => {
 });
 
 /* ============================================================
-   Scroll progress bar — fills as you scroll down the page
+   Scroll progress bar — smooth lerp, no CSS transition needed
    ============================================================ */
 const progressBar = document.getElementById('progress-bar');
+let currentWidth = 0;
+let targetWidth  = 0;
+
+function getScrollPercent() {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  return maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+}
+
+function tickProgress() {
+  // Lerp: ease toward target at 14% per frame — smooth but responsive
+  currentWidth += (targetWidth - currentWidth) * 0.14;
+  progressBar.style.width = currentWidth + '%';
+  requestAnimationFrame(tickProgress);
+}
 
 window.addEventListener('scroll', () => {
-  const scrolled  = window.scrollY;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  progressBar.style.width = (scrolled / maxScroll * 100) + '%';
+  targetWidth = getScrollPercent();
 }, { passive: true });
+
+tickProgress();
 
 /* ============================================================
    Nav border appears only after scrolling past the hero
    ============================================================ */
 const nav = document.getElementById('nav');
 
+/* ============================================================
+   Back to top button
+   ============================================================ */
+const backToTop = document.getElementById('back-to-top');
+
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
+  backToTop.classList.toggle('visible', window.scrollY > 400);
 }, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 /* ============================================================
    Active nav link — highlights based on scroll position
