@@ -9,10 +9,18 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
 
-// Close when a link is tapped
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
+
+/* ============================================================
+   Nav border appears only after scrolling past the hero
+   ============================================================ */
+const nav = document.getElementById('nav');
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
 
 /* ============================================================
    Active nav link — highlights based on scroll position
@@ -34,31 +42,99 @@ const sectionObserver = new IntersectionObserver(entries => {
 sections.forEach(s => sectionObserver.observe(s));
 
 /* ============================================================
-   Visitor counter
-   Uses CountAPI — free, no account needed, persists in cloud.
-   Namespace: monishsaravanan | Key: portfolio-2025
-   API docs: https://countapi.xyz
+   Scroll fade-in
+   Anything with class .fade-up becomes visible when it enters
+   the viewport.
+   ============================================================ */
+const fadeEls = document.querySelectorAll('.fade-up');
+
+const fadeObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target); // animate once only
+    }
+  });
+}, { threshold: 0.12 });
+
+fadeEls.forEach(el => fadeObserver.observe(el));
+
+/* ============================================================
+   Stats counter animation
+   Counts up from 0 to the target number when the stat enters
+   the viewport. Reads the number from the element's text.
+   ============================================================ */
+function parseStatValue(text) {
+  // Strip non-numeric except dot — e.g. "10,000+" → 10000, "4.9%" → 4.9
+  return parseFloat(text.replace(/[^0-9.]/g, ''));
+}
+
+function formatStatValue(raw, original) {
+  // Re-apply the original prefix/suffix (%, +, commas, etc.)
+  const hasComma  = original.includes(',');
+  const hasPlus   = original.includes('+');
+  const hasPercent= original.includes('%');
+
+  let result = hasComma
+    ? Math.round(raw).toLocaleString()
+    : raw % 1 !== 0 ? raw.toFixed(1) : String(Math.round(raw));
+
+  if (hasPlus)    result += '+';
+  if (hasPercent) result += '%';
+  return result;
+}
+
+function animateCounter(el) {
+  const original = el.textContent.trim();
+  const target   = parseStatValue(original);
+  if (isNaN(target)) return;
+
+  const duration = 1400; // ms
+  const start    = performance.now();
+
+  function step(now) {
+    const elapsed  = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out cubic
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    el.textContent = formatStatValue(eased * target, original);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+const statNums = document.querySelectorAll('.stat-num');
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      statObserver.unobserve(entry.target); // count up once only
+    }
+  });
+}, { threshold: 0.5 });
+
+statNums.forEach(el => statObserver.observe(el));
+
+/* ============================================================
+   Visitor counter using CountAPI
    ============================================================ */
 async function loadVisitorCount() {
   const heroEl   = document.getElementById('visitor-count');
   const footerEl = document.getElementById('footer-count');
 
   try {
-    // Each page load increments the counter by 1
     const res = await fetch(
       'https://api.countapi.xyz/hit/monishsaravanan/portfolio-2025',
       { cache: 'no-store' }
     );
-
     if (!res.ok) throw new Error('API unavailable');
-
     const { value } = await res.json();
     const formatted  = Number(value).toLocaleString();
-
     heroEl.textContent   = formatted;
     footerEl.textContent = formatted + ' visits';
   } catch {
-    // Silently fall back — don't show broken UI
     heroEl.textContent   = '—';
     footerEl.textContent = '';
   }

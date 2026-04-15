@@ -15,6 +15,65 @@
 }
 
 /* ============================================================
+   Dark mode — follows system preference
+   Apple dark palette: #000000 bg, #f5f5f7 text, #0a84ff accent
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:          #000000;
+    --bg-alt:      #1c1c1e;
+    --text:        #f5f5f7;
+    --text-muted:  #98989d;
+    --accent:      #0a84ff;
+    --accent-dark: #0071e3;
+    --border:      #38383a;
+  }
+
+  .hero-photo {
+    border-color: #38383a;
+  }
+
+  .project-card {
+    background: #1c1c1e;
+  }
+
+  .project-stack span {
+    background: #2c2c2e;
+  }
+
+  .stat {
+    background: #2c2c2e;
+  }
+
+  .btn-ghost {
+    border-color: var(--accent);
+  }
+
+  #nav {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* ============================================================
+   Scroll fade-in — elements start invisible, JS adds .visible
+   ============================================================ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay for child items inside a group */
+.fade-up:nth-child(2) { transition-delay: 0.08s; }
+.fade-up:nth-child(3) { transition-delay: 0.16s; }
+.fade-up:nth-child(4) { transition-delay: 0.24s; }
+
+/* ============================================================
    Reset & Base
    ============================================================ */
 *, *::before, *::after {
@@ -65,9 +124,14 @@ section {
   z-index: 200;
   height: 52px;
   background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+#nav.scrolled {
+  border-bottom-color: var(--border);
 }
 
 .nav-inner {
@@ -566,54 +630,36 @@ footer span {
 }
 
 /* ============================================================
-   Responsive — Tablet & Mobile
+   Responsive
+   1024px  — tablet landscape / small laptop
+   768px   — tablet portrait (iPad)
+   600px   — large phone
+   420px   — small phone
    ============================================================ */
-@media (max-width: 820px) {
-  h2 { font-size: 32px; margin-bottom: 40px; }
 
-  #hero { padding: 88px 0 72px; }
-  #hero h1 { font-size: 52px; }
-  .hero-sub { font-size: 18px; }
+/* --- Tablet landscape / small laptop (≤ 1024px) ----------- */
+@media (max-width: 1024px) {
+  :root { --max: 900px; }
 
-  section { padding: 72px 0; }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
+  #hero h1    { font-size: 62px; }
+  .hero-sub   { font-size: 19px; }
 
   .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-
-  .achieve-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-
-  .project-header {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .project-stack {
-    justify-content: flex-start;
-  }
-
-  .project-card {
-    padding: 28px;
-  }
-
-  .stats-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
   }
 }
 
-@media (max-width: 600px) {
-  #hero h1 { font-size: 40px; }
-  #hero h1 br { display: none; }
+/* --- Tablet portrait (≤ 768px) ---------------------------- */
+@media (max-width: 768px) {
+  h2 { font-size: 30px; margin-bottom: 36px; }
 
+  section     { padding: 72px 0; }
+  #hero       { padding: 80px 0 64px; }
+  #hero h1    { font-size: 50px; }
+  .hero-sub   { font-size: 17px; }
+
+  /* Stack nav into hamburger at tablet portrait */
   .nav-links {
     display: none;
     position: absolute;
@@ -624,27 +670,86 @@ footer span {
     flex-direction: column;
     gap: 0;
     border-bottom: 1px solid var(--border);
+    z-index: 199;
   }
 
-  .nav-links.open {
-    display: flex;
+  .nav-links.open   { display: flex; }
+  .nav-toggle       { display: flex; }
+
+  .nav-links li     { border-bottom: 1px solid var(--border); }
+  .nav-links a      { display: block; padding: 14px 22px; font-size: 16px; }
+
+  /* About: single column */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
   }
 
-  .nav-links li {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-links a {
-    display: block;
-    padding: 14px 22px;
-    font-size: 16px;
-  }
-
-  .nav-toggle {
-    display: flex;
-  }
-
+  /* Skills: 2 columns */
   .skills-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
   }
+
+  /* Achievements: single column */
+  .achieve-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  /* Project cards */
+  .project-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .project-stack  { justify-content: flex-start; }
+  .project-card   { padding: 28px 24px; }
+
+  /* Stats row stays 3 columns — fits at 768px wide */
+  .stats-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stat           { padding: 16px 14px; }
+  .stat-num       { font-size: 24px; }
+
+  /* Contact links wrap cleanly */
+  .contact-links  { line-height: 2.2; }
+}
+
+/* --- Large phone (≤ 600px) -------------------------------- */
+@media (max-width: 600px) {
+  h2            { font-size: 28px; }
+  #hero         { padding: 64px 0 56px; }
+  #hero h1      { font-size: 40px; }
+  #hero h1 br   { display: none; }
+  .hero-sub     { font-size: 16px; }
+  .hero-photo   { width: 128px; height: 128px; }
+
+  .stats-row    { grid-template-columns: 1fr; }
+
+  .skills-grid  { grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .contact-wrap p { font-size: 17px; }
+
+  .btn, .btn-ghost { font-size: 15px; padding: 11px 22px; }
+
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+/* --- Small phone (≤ 420px) -------------------------------- */
+@media (max-width: 420px) {
+  .container    { padding: 0 16px; }
+
+  #hero h1      { font-size: 34px; }
+  .hero-photo   { width: 110px; height: 110px; }
+
+  .project-card { padding: 20px 16px; }
+
+  .skills-grid  { grid-template-columns: 1fr; }
+
+  .hero-actions { flex-direction: column; align-items: center; }
+
+  .btn, .btn-ghost { width: 100%; text-align: center; }
 }
