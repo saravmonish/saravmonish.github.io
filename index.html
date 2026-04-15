@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Monish Saravanan — Masters student in AI & ML at the University of Adelaide. Computer vision, deep learning, and environmental AI.">
+  <title>Monish Saravanan</title>
+
+  <!-- Inter font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">Monish Saravanan</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <p class="eyebrow">Master of AI &amp; ML — University of Adelaide</p>
+      <h1>Monish<br>Saravanan</h1>
+      <p class="hero-sub">
+        I build machine learning systems for hard problems — detecting near-invisible micro-plastics
+        in waterways, hiding data inside images, and filtering spam at scale.
+      </p>
+      <a href="#contact" class="btn">Get in touch</a>
+      <p class="visitor-line">
+        <span id="visitor-count">—</span> people have visited this portfolio
+      </p>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2>About me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a computer science graduate from Chennai, now at the University of Adelaide
+            completing my master's in Artificial Intelligence and Machine Learning.
+          </p>
+          <p>
+            My undergraduate degree at Sathyabama Institute of Science and Technology gave me a
+            foundation in ML, computer vision, and NLP. Since then I've been drawn to problems
+            where AI has to deal with things that are hard to see — translucent particles in water,
+            hidden data in images, patterns in messy text.
+          </p>
+          <p>
+            Right now I'm focused on attention-based architectures and how neural networks can be
+            made to selectively ignore irrelevant noise and focus on what actually matters in
+            difficult, real-world conditions.
+          </p>
+        </div>
+
+        <div class="education">
+          <h3>Education</h3>
+
+          <div class="edu-item">
+            <div class="edu-meta">
+              <span class="edu-year">2025 — Present</span>
+            </div>
+            <div class="edu-detail">
+              <strong>Master of Artificial Intelligence and Machine Learning</strong>
+              <span>University of Adelaide, Australia</span>
+            </div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-meta">
+              <span class="edu-year">2021 — 2025</span>
+            </div>
+            <div class="edu-detail">
+              <strong>B.E. Computer Science — AI &amp; ML</strong>
+              <span>Sathyabama Institute of Science and Technology, Chennai</span>
+              <span class="edu-grade">CGPA 7.51</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <h2>Projects</h2>
+
+      <!-- EcoScan -->
+      <article class="project-card">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Computer Vision · Deep Learning</span>
+            <h3>EcoScan: Detecting Micro-Plastics in Waterways</h3>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>YOLOv8</span>
+            <span>CBAM</span>
+            <span>PyTorch</span>
+            <span>OpenCV</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <p>
+            Micro-plastics — particles smaller than 5mm — blend into sediment, surface reflections,
+            and organic matter. They're translucent, tiny, and nearly impossible for a standard
+            detection model to pick out in drone footage of a river.
+          </p>
+          <p>
+            I extended YOLOv8 with Convolutional Block Attention Modules (CBAM) inserted directly
+            after the C2f backbone blocks, before the multi-scale fusion stage. This forces the
+            network to suppress background noise — glare, ripples, colour variation — and amplify
+            the faint signals left by translucent particles, rather than treating everything equally.
+            Prior work only adds attention at the detection head; putting it earlier means the
+            benefit carries through every downstream stage.
+          </p>
+
+          <!-- Real stats from the paper -->
+          <div class="stats-row">
+            <div class="stat">
+              <span class="stat-num">10,000+</span>
+              <span class="stat-label">Labeled training images</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">6</span>
+              <span class="stat-label">Debris classes (bottles, bags, foam, nets, other, micro-plastics)</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">4.9%</span>
+              <span class="stat-label">Micro-plastic share — severe class imbalance addressed with focal loss</span>
+            </div>
+          </div>
+
+          <p class="project-note">
+            Training handled a sharp imbalance — micro-plastics are only 4.9% of annotations while
+            macro-plastics account for 56%. I used focal loss to stop the model from ignoring them
+            entirely, then oversampled micro-plastic examples with domain-specific augmentations:
+            simulated murky water (brownish-green tint), Gaussian blur for camera defocus, and gamma
+            correction to replicate changing light. YOLOv8's mosaic augmentation added further
+            context diversity.
+          </p>
+        </div>
+      </article>
+
+      <!-- Image Steganography -->
+      <article class="project-card">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Deep Learning · Security</span>
+            <h3>Image Steganography using Deep Learning</h3>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>TensorFlow</span>
+            <span>OpenCV</span>
+            <span>U-Net</span>
+            <span>GANs</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <p>
+            Traditional steganography hides secret data inside images, but the hidden data usually
+            causes visible distortion — the image looks off, and anyone checking for tampering can
+            spot it. This project replaced rule-based hiding with a learned approach.
+          </p>
+          <p>
+            A CNN encoder learned where in an image to embed the secret payload so it causes minimal
+            visual change. A U-Net decoder on the other end learned to extract the hidden data
+            reliably. A GAN discriminator acted as an adversarial quality check — the encoder had to
+            fool it into thinking the output image was unmodified — which pushed the system toward
+            embedding data in ways that are genuinely hard to detect.
+          </p>
+        </div>
+      </article>
+
+      <!-- Email Spam Detection -->
+      <article class="project-card">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">NLP · Machine Learning</span>
+            <h3>Advanced Email Spam Detection</h3>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>NLP</span>
+            <span>Scikit-learn</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <p>
+            Spam evolves fast. A model trained on last year's campaigns gets outpaced quickly because
+            spammers change phrasing, structure, and tactics. This project was designed around that
+            core challenge.
+          </p>
+          <p>
+            Rather than relying only on word frequencies, the pipeline extracts structural signals —
+            header anomalies, link density, sentence length patterns, and tone markers — that stay
+            predictive even as specific spam language changes. The classifier was tuned for both
+            accuracy and throughput so it stays practical at email scale.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h4>Programming</h4>
+          <ul>
+            <li>Python</li>
+            <li>R</li>
+            <li>SQL</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h4>Machine Learning</h4>
+          <ul>
+            <li>TensorFlow</li>
+            <li>PyTorch</li>
+            <li>Scikit-learn</li>
+            <li>Computer Vision</li>
+            <li>NLP</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h4>Tools</h4>
+          <ul>
+            <li>GitHub</li>
+            <li>VS Code</li>
+            <li>Tableau</li>
+            <li>Figma</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h4>Web</h4>
+          <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section id="achievements">
+    <div class="container">
+      <h2>Achievements &amp; Certifications</h2>
+      <div class="achieve-grid">
+
+        <div class="achieve-block">
+          <h3>Competition wins</h3>
+          <ul class="achieve-list">
+            <li>
+              <strong>2nd place</strong> — Agni's Ignite India Innovation Conference,
+              BONN Nehru Hr Sec School
+            </li>
+            <li>
+              <strong>3rd place</strong> — Codechef Technical Quiz, Sathyabama University
+            </li>
+            <li>
+              <strong>2nd place</strong> — Cybug Online Technical Quiz, Sathyabama University
+            </li>
+          </ul>
+        </div>
+
+        <div class="achieve-block">
+          <h3>Certifications</h3>
+          <ul class="achieve-list">
+            <li>
+              <strong>Digital 101 Journey</strong> — NASSCOM
+              <span class="cert-date">Sept 2023 – Feb 2024</span>
+            </li>
+            <li>
+              <strong>Digital 101, 30 hours</strong> — NASSCOM
+              <span class="cert-date">June – Aug 2024</span>
+            </li>
+            <li>
+              <strong>AWS Python</strong> — Credo Systemz
+              <span class="cert-date">Jan – Apr 2024</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container contact-wrap">
+      <h2>Get in touch</h2>
+      <p>
+        I'm open to research collaborations, internships, and project discussions.
+        Email is the best way to reach me.
+      </p>
+      <a href="mailto:monishsaravanan1201@gmail.com" class="btn">
+        monishsaravanan1201@gmail.com
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2025 Monish Saravanan</span>
+      <span id="footer-count" class="footer-count"></span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
