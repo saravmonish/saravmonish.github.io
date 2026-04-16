@@ -44,6 +44,7 @@ Inspired by Apple's design language.
 - About section with bio and education timeline
 - Three project deep-dives: EcoScan, Image Steganography, Email Spam Detection
 - EcoScan has real stats pulled from the research paper (10,000+ images, 6 classes, 4.9% class imbalance)
+- Image Steganography is a **Scopus-indexed published paper** (ACT 2025) — card shows real results: 38.2 dB PSNR, 0.95 SSIM, 92% retrieval accuracy post-compression, <30% steganalysis detection rate
 - Skills grid (Programming, ML, Tools, Web)
 - Achievements and Certifications
 - Contact with email, WhatsApp, GitHub, LinkedIn, Instagram
