@@ -546,6 +546,63 @@ h3 {
   margin-top: 6px !important;
 }
 
+/* Published badge — green, sits under the project title */
+.published-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a7f4b;
+  background: #e6f4ee;
+  border: 1px solid #a8d9bc;
+  padding: 4px 10px;
+  border-radius: 980px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .published-badge {
+    color: #4cd98a;
+    background: #0d2e1c;
+    border-color: #1e5c38;
+  }
+}
+
+/* Paper citation link block */
+.paper-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  background: var(--bg-alt);
+  transition: border-color 0.15s ease;
+  flex-wrap: wrap;
+}
+
+.paper-link:hover {
+  border-color: var(--accent);
+}
+
+.paper-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.paper-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
 /* ============================================================
    Skills
    ============================================================ */

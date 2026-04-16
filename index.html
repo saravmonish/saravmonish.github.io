@@ -192,12 +192,13 @@
           <div class="project-title-block">
             <span class="project-tag">Deep Learning · Security</span>
             <h3>Image Steganography using Deep Learning</h3>
+            <span class="published-badge">Published · Scopus Indexed</span>
           </div>
           <div class="project-stack">
             <span>Python</span>
             <span>TensorFlow</span>
             <span>OpenCV</span>
-            <span>U-Net</span>
+            <span>CNN</span>
             <span>GANs</span>
           </div>
         </div>
@@ -209,12 +210,20 @@
             spot it. This project replaced rule-based hiding with a learned approach.
           </p>
           <p>
-            A CNN encoder learned where in an image to embed the secret payload so it causes minimal
-            visual change. A U-Net decoder on the other end learned to extract the hidden data
-            reliably. A GAN discriminator acted as an adversarial quality check — the encoder had to
-            fool it into thinking the output image was unmodified — which pushed the system toward
-            embedding data in ways that are genuinely hard to detect.
+            A CNN-based encoder-decoder learns where in an image to embed the secret payload so it
+            causes minimal visual change — an improvement over older techniques like LSB which have
+            low payload capacity and are easy to attack. The architecture extracts deep spatial
+            features to embed data in ways that are robust against steganalysis detection.
           </p>
+          <a href="https://www.scopus.com/pages/publications/105034868449?origin=resultslist"
+             target="_blank" rel="noopener" class="paper-link">
+            <span class="paper-meta">
+              Thoufeeq M., Monish M.S., Lakshmi M.A. &nbsp;·&nbsp;
+              ACT 2025 — 16th International Conference on Advances in Computing,
+              Control, and Telecommunication Technologies &nbsp;·&nbsp; Sathyabama Institute
+            </span>
+            <span class="paper-cta">View on Scopus →</span>
+          </a>
         </div>
       </article>
 
