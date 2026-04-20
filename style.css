@@ -569,6 +569,29 @@ h3 {
   }
 }
 
+/* Work in progress badge — amber */
+.wip-badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9a6200;
+  background: #fef3dc;
+  border: 1px solid #f5cc85;
+  padding: 4px 10px;
+  border-radius: 980px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wip-badge {
+    color: #ffc452;
+    background: #2e1f00;
+    border-color: #5c3d00;
+  }
+}
+
 /* Paper citation link block */
 .paper-link {
   display: flex;

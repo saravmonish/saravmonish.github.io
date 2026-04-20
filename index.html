@@ -128,6 +128,72 @@
     <div class="container">
       <h2 class="fade-up">Projects</h2>
 
+      <!-- FairHire AI -->
+      <article class="project-card fade-up">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Machine Learning · Explainable AI · Full Stack</span>
+            <h3>FairHire AI — Explainable Candidate Ranking</h3>
+            <span class="wip-badge">Work in Progress · v0.9</span>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>Next.js</span>
+            <span>LightGBM</span>
+            <span>SHAP</span>
+            <span>pgvector</span>
+            <span>Docker</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <p>
+            A recruiter uploads a job description and a batch of resumes. The system parses them,
+            ranks every candidate against the job, and shows the recruiter exactly why each person
+            got the rank they did — with the actual lines from the resume that drove the score.
+            Every ranked list goes through a human before any action is taken.
+          </p>
+          <p>
+            The pipeline runs across seven services: ingestion handles PDF and DOCX parsing with
+            OCR fallback, an NLP layer extracts skills, experience, education and normalises them
+            against the ESCO ontology, sentence-transformers embed both the job requirements and
+            resume evidence into vectors stored in pgvector, and a LightGBM ranker scores each
+            candidate. SHAP values tie every top feature back to a specific span of resume text —
+            so the recruiter sees "ranked #1 because of 6 years Python, matches requirement 3"
+            not just a number.
+          </p>
+
+          <div class="stats-row">
+            <div class="stat">
+              <span class="stat-num">7</span>
+              <span class="stat-label">Backend services — ingestion, NLP, embeddings, ranker, explanations, fairness, API</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">9+</span>
+              <span class="stat-label">Features shipped — ranked list UI, candidate detail, fairness tab, PDF export, audit log</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">64</span>
+              <span class="stat-label">Synthetic eval pairs across 4 roles — end-to-end pipeline verified</span>
+            </div>
+          </div>
+
+          <p class="project-note">
+            Includes a fairness instrumentation tab that shows subgroup score distributions and
+            top-K selection rates — with an explicit disclaimer that it is instrumentation for a
+            real audit, not a bias removal claim. Hand-labelled evaluation set and live demo
+            are the remaining milestones.
+          </p>
+
+          <a href="https://github.com/saravmonish/fairhire"
+             target="_blank" rel="noopener" class="paper-link">
+            <span class="paper-meta">View source code, architecture docs, and system card</span>
+            <span class="paper-cta">GitHub →</span>
+          </a>
+        </div>
+      </article>
+
       <!-- EcoScan -->
       <article class="project-card fade-up">
         <div class="project-header">
