@@ -153,31 +153,50 @@ const statObserver = new IntersectionObserver(entries => {
 statNums.forEach(el => statObserver.observe(el));
 
 /* ============================================================
-   Visitor counter using CountAPI
+   Visitor counter
+   Strategy: increment once per 24h. Repeat visitors within
+   24h are served the cached count from localStorage — no
+   second API call, no dependency on the unreliable 'get'
+   endpoint. Falls back to cached count on network errors.
    ============================================================ */
 async function loadVisitorCount() {
-  const heroEl   = document.getElementById('visitor-count');
-  const footerEl = document.getElementById('footer-count');
+  const heroEl      = document.getElementById('visitor-count');
+  const footerEl    = document.getElementById('footer-count');
 
-  // Only increment once per 24h per browser — avoids inflating on refresh
-  const lastVisit = localStorage.getItem('ms_last_visit');
-  const now       = Date.now();
-  const oneDay    = 86400000;
-  const shouldHit = !lastVisit || (now - parseInt(lastVisit)) > oneDay;
+  const lastVisit   = localStorage.getItem('ms_last_visit');
+  const cachedCount = localStorage.getItem('ms_cached_count');
+  const now         = Date.now();
+  const oneDay      = 86400000;
+  const withinDay   = lastVisit && (now - parseInt(lastVisit)) < oneDay;
 
-  const endpoint = shouldHit ? '/api/count' : '/api/count?read=1';
+  // Repeat visitor within 24h — show cached count, skip the API entirely
+  if (withinDay && cachedCount) {
+    const formatted      = Number(cachedCount).toLocaleString();
+    heroEl.textContent   = formatted;
+    footerEl.textContent = formatted + ' visits';
+    return;
+  }
 
+  // First visit or >24h ago — increment and cache the new total
   try {
-    const res = await fetch(endpoint, { cache: 'no-store' });
+    const res = await fetch('/api/count', { cache: 'no-store' });
     if (!res.ok) throw new Error('API unavailable');
     const { count } = await res.json();
-    if (shouldHit) localStorage.setItem('ms_last_visit', now);
-    const formatted  = Number(count).toLocaleString();
+    localStorage.setItem('ms_last_visit', String(now));
+    localStorage.setItem('ms_cached_count', String(count));
+    const formatted      = Number(count).toLocaleString();
     heroEl.textContent   = formatted;
     footerEl.textContent = formatted + ' visits';
   } catch {
-    heroEl.textContent   = '—';
-    footerEl.textContent = '';
+    // Network error — show cached count if we have one, else dash
+    if (cachedCount) {
+      const formatted      = Number(cachedCount).toLocaleString();
+      heroEl.textContent   = formatted;
+      footerEl.textContent = formatted + ' visits';
+    } else {
+      heroEl.textContent   = '—';
+      footerEl.textContent = '';
+    }
   }
 }
 
