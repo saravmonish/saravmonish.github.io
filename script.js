@@ -128,49 +128,48 @@ const statObserver = new IntersectionObserver(entries => {
 statNums.forEach(el => statObserver.observe(el));
 
 /* ============================================================
-   Visitor counter
-   Strategy: increment once per 24h. Repeat visitors within
-   24h are served the cached count from localStorage — no
-   second API call, no dependency on the unreliable 'get'
-   endpoint. Falls back to cached count on network errors.
+   Visitor counter — live
+   Shows the live global total on every load, so every browser
+   and device displays the same number. Increments at most once
+   per 24h per browser (localStorage dedup) so reloads don't
+   inflate the count. Falls back to the last seen value on a
+   network error.
    ============================================================ */
 async function loadVisitorCount() {
-  const heroEl      = document.getElementById('visitor-count');
-  const footerEl    = document.getElementById('footer-count');
+  const heroEl   = document.getElementById('visitor-count');
+  const footerEl = document.getElementById('footer-count');
 
-  const lastVisit   = localStorage.getItem('ms_last_visit');
-  const cachedCount = localStorage.getItem('ms_cached_count');
-  const now         = Date.now();
-  const oneDay      = 86400000;
-  const withinDay   = lastVisit && (now - parseInt(lastVisit)) < oneDay;
+  const render = (n) => {
+    const formatted = Number(n).toLocaleString();
+    if (heroEl)   heroEl.textContent   = formatted;
+    if (footerEl) footerEl.textContent = formatted + ' visits';
+  };
 
-  // Repeat visitor within 24h — show cached count, skip the API entirely
-  if (withinDay && cachedCount) {
-    const formatted      = Number(cachedCount).toLocaleString();
-    heroEl.textContent   = formatted;
-    footerEl.textContent = formatted + ' visits';
-    return;
-  }
+  const lastVisit = localStorage.getItem('ms_last_visit');
+  const now       = Date.now();
+  const oneDay    = 86400000;
+  // Count this visit only on the first ever load or >24h since the last.
+  const shouldCount = !lastVisit || (now - parseInt(lastVisit)) >= oneDay;
 
-  // First visit or >24h ago — increment and cache the new total
   try {
-    const res = await fetch('/api/count', { cache: 'no-store' });
+    // ?peek=1 reads the live total without incrementing; the bare endpoint
+    // increments. Both responses carry the current global count.
+    const res = await fetch(shouldCount ? '/api/count' : '/api/count?peek=1',
+                            { cache: 'no-store' });
     if (!res.ok) throw new Error('API unavailable');
     const { count } = await res.json();
-    localStorage.setItem('ms_last_visit', String(now));
+    if (count == null) throw new Error('no count');
+    if (shouldCount) localStorage.setItem('ms_last_visit', String(now));
     localStorage.setItem('ms_cached_count', String(count));
-    const formatted      = Number(count).toLocaleString();
-    heroEl.textContent   = formatted;
-    footerEl.textContent = formatted + ' visits';
+    render(count);
   } catch {
-    // Network error — show cached count if we have one, else dash
+    // Network error — show the last value we saw, else a dash.
+    const cachedCount = localStorage.getItem('ms_cached_count');
     if (cachedCount) {
-      const formatted      = Number(cachedCount).toLocaleString();
-      heroEl.textContent   = formatted;
-      footerEl.textContent = formatted + ' visits';
+      render(cachedCount);
     } else {
-      heroEl.textContent   = '—';
-      footerEl.textContent = '';
+      if (heroEl)   heroEl.textContent   = '—';
+      if (footerEl) footerEl.textContent = '';
     }
   }
 }
