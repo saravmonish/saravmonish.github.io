@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Apply saved theme before paint to avoid a flash of the wrong mode -->
+  <script>(function(){try{var t=localStorage.getItem('ms_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <meta name="description" content="Monish Saravanan — Masters student in AI & ML at Adelaide University. Computer vision, deep learning, and environmental AI.">
   <meta name="keywords" content="Monish Saravanan, AI ML engineer, Adelaide University, computer vision, deep learning, EcoScan, image steganography, FairHire AI, machine learning portfolio">
   <meta name="author" content="Monish Saravanan">
@@ -62,19 +64,31 @@
   <!-- Navigation -->
   <nav id="nav">
     <div class="nav-inner">
-      <a class="nav-brand" href="#">Monish Saravanan</a>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#achievements">Achievements</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="nav-left">
+        <a class="nav-brand" href="#">Monish Saravanan</a>
+        <span class="flap" id="flap" aria-label="Status: open to work" title="Open to work">
+          <span class="flap-dot" aria-hidden="true"></span>
+          <span class="flap-board" id="flap-board" aria-hidden="true"></span>
+        </span>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark mode" title="Toggle light / dark">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -87,6 +101,12 @@
       <p class="hero-sub fade-up">
         I'm training to become an AI architect who builds systems that solve problems people can't ignore.
       </p>
+      <div class="hero-meta fade-up">
+        <span class="hero-meta-item">Scopus-published</span>
+        <span class="hero-meta-item">4 ML projects</span>
+        <span class="hero-meta-item">Computer vision</span>
+        <span class="hero-meta-item">Explainable AI</span>
+      </div>
       <div class="hero-actions fade-up">
         <a href="#contact" class="btn">Get in touch</a>
         <a href="https://github.com/saravmonish" target="_blank" rel="noopener" class="btn-ghost">GitHub</a>
@@ -189,6 +209,22 @@
             not just a number.
           </p>
 
+          <div class="flow" role="img" aria-label="FairHire pipeline: ingestion, NLP, embeddings, ranker, SHAP explanations, fairness audit, API">
+            <span class="flow-node">Ingestion<small>PDF · DOCX · OCR</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">NLP<small>ESCO ontology</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Embeddings<small>pgvector</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Ranker<small>LightGBM</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">Explanations<small>SHAP</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Fairness<small>subgroup audit</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">API</span>
+          </div>
+
           <div class="stats-row">
             <div class="stat">
               <span class="stat-num">7</span>
@@ -249,6 +285,18 @@
             Prior work only adds attention at the detection head; putting it earlier means the
             benefit carries through every downstream stage.
           </p>
+
+          <div class="flow" role="img" aria-label="EcoScan architecture: drone frame, YOLOv8 backbone, CBAM attention, multi-scale fusion, detections">
+            <span class="flow-node">Drone frame</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">YOLOv8 backbone<small>C2f blocks</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">CBAM attention<small>suppresses noise</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Multi-scale fusion</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Detections</span>
+          </div>
 
           <!-- Real stats from the paper -->
           <div class="stats-row">
@@ -315,6 +363,20 @@
             accuracy (Binary Cross-Entropy).
           </p>
 
+          <div class="flow" role="img" aria-label="Encoder-decoder: cover plus secret, CNN encoder, stego image, compression and noise, CNN decoder, recovered data">
+            <span class="flow-node">Cover + secret</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">CNN encoder</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Stego image<small>visually identical</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Compression · noise</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">CNN decoder</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Recovered data</span>
+          </div>
+
           <div class="stats-row">
             <div class="stat">
               <span class="stat-num">38.2</span>
@@ -374,6 +436,16 @@
             predictive even as specific spam language changes. The classifier was tuned for both
             accuracy and throughput so it stays practical at email scale.
           </p>
+
+          <div class="flow" role="img" aria-label="Pipeline: email, structural features, classifier, spam or ham">
+            <span class="flow-node">Email</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">Structural features<small>headers · links · length · tone</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Classifier</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Spam / Ham</span>
+          </div>
         </div>
       </article>
 
@@ -475,11 +547,11 @@
         I'm open to research collaborations, internships, and project discussions.
         Email is the best way to reach me.
       </p>
-      <a href="mailto:monishsaravanan1201@gmail.com" class="btn fade-up">
+      <a href="mailto:monishsaravanan1201@gmail.com" class="btn fade-up" id="contact-email" data-email="monishsaravanan1201@gmail.com">
         monishsaravanan1201@gmail.com
       </a>
       <div class="contact-links fade-up">
-        <a href="https://wa.me/610421028470" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://wa.me/61421028470" target="_blank" rel="noopener">WhatsApp</a>
         <span class="divider">·</span>
         <a href="https://github.com/saravmonish" target="_blank" rel="noopener">GitHub</a>
         <span class="divider">·</span>
@@ -494,6 +566,11 @@
   <footer>
     <div class="container footer-inner">
       <span>© 2025 Monish Saravanan</span>
+      <span class="footer-clock" title="Local time in Adelaide">
+        <span class="clock-dot" aria-hidden="true"></span>
+        <span id="footer-time">--:--:--</span>
+        <span class="clock-zone">ACST</span>
+      </span>
       <span id="footer-count" class="footer-count"></span>
     </div>
   </footer>
