@@ -6,7 +6,7 @@
   <!-- Apply saved theme before paint to avoid a flash of the wrong mode -->
   <script>(function(){try{var t=localStorage.getItem('ms_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <meta name="description" content="Monish Saravanan — Masters student in AI & ML at Adelaide University. Computer vision, deep learning, and environmental AI.">
-  <meta name="keywords" content="Monish Saravanan, AI ML engineer, Adelaide University, computer vision, deep learning, EcoScan, image steganography, FairHire AI, machine learning portfolio">
+  <meta name="keywords" content="Monish Saravanan, AI ML engineer, Adelaide University, computer vision, deep learning, EcoScan, image steganography, machine learning portfolio">
   <meta name="author" content="Monish Saravanan">
   <meta name="robots" content="index, follow">
   <title>Monish Saravanan — AI & ML Engineer</title>
@@ -103,7 +103,7 @@
       </p>
       <div class="hero-meta fade-up">
         <span class="hero-meta-item">Scopus-published</span>
-        <span class="hero-meta-item">4 ML projects</span>
+        <span class="hero-meta-item">2 ML projects</span>
         <span class="hero-meta-item">Computer vision</span>
         <span class="hero-meta-item">Explainable AI</span>
       </div>
@@ -172,88 +172,6 @@
   <section id="projects">
     <div class="container">
       <h2 class="fade-up">Projects</h2>
-
-      <!-- FairHire AI -->
-      <article class="project-card fade-up">
-        <div class="project-header">
-          <div class="project-title-block">
-            <span class="project-tag">Machine Learning · Explainable AI · Full Stack</span>
-            <h3>FairHire AI — Explainable Candidate Ranking</h3>
-            <span class="wip-badge">Work in Progress · v0.9</span>
-          </div>
-          <div class="project-stack">
-            <span>Python</span>
-            <span>FastAPI</span>
-            <span>Next.js</span>
-            <span>LightGBM</span>
-            <span>SHAP</span>
-            <span>pgvector</span>
-            <span>Docker</span>
-          </div>
-        </div>
-
-        <div class="project-body">
-          <p>
-            A recruiter uploads a job description and a batch of resumes. The system parses them,
-            ranks every candidate against the job, and shows the recruiter exactly why each person
-            got the rank they did — with the actual lines from the resume that drove the score.
-            Every ranked list goes through a human before any action is taken.
-          </p>
-          <p>
-            The pipeline runs across seven services: ingestion handles PDF and DOCX parsing with
-            OCR fallback, an NLP layer extracts skills, experience, education and normalises them
-            against the ESCO ontology, sentence-transformers embed both the job requirements and
-            resume evidence into vectors stored in pgvector, and a LightGBM ranker scores each
-            candidate. SHAP values tie every top feature back to a specific span of resume text —
-            so the recruiter sees "ranked #1 because of 6 years Python, matches requirement 3"
-            not just a number.
-          </p>
-
-          <div class="flow" role="img" aria-label="FairHire pipeline: ingestion, NLP, embeddings, ranker, SHAP explanations, fairness audit, API">
-            <span class="flow-node">Ingestion<small>PDF · DOCX · OCR</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">NLP<small>ESCO ontology</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Embeddings<small>pgvector</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Ranker<small>LightGBM</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node key">Explanations<small>SHAP</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Fairness<small>subgroup audit</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">API</span>
-          </div>
-
-          <div class="stats-row">
-            <div class="stat">
-              <span class="stat-num">7</span>
-              <span class="stat-label">Backend services — ingestion, NLP, embeddings, ranker, explanations, fairness, API</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">9+</span>
-              <span class="stat-label">Features shipped — ranked list UI, candidate detail, fairness tab, PDF export, audit log</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">64</span>
-              <span class="stat-label">Synthetic eval pairs across 4 roles — end-to-end pipeline verified</span>
-            </div>
-          </div>
-
-          <p class="project-note">
-            Includes a fairness instrumentation tab that shows subgroup score distributions and
-            top-K selection rates — with an explicit disclaimer that it is instrumentation for a
-            real audit, not a bias removal claim. Hand-labelled evaluation set and live demo
-            are the remaining milestones.
-          </p>
-
-          <a href="https://github.com/saravmonish/fairhire"
-             target="_blank" rel="noopener" class="paper-link">
-            <span class="paper-meta">View source code, architecture docs, and system card</span>
-            <span class="paper-cta">GitHub →</span>
-          </a>
-        </div>
-      </article>
 
       <!-- EcoScan -->
       <article class="project-card fade-up">
@@ -407,45 +325,6 @@
             </span>
             <span class="paper-cta">View on Scopus →</span>
           </a>
-        </div>
-      </article>
-
-      <!-- Email Spam Detection -->
-      <article class="project-card fade-up">
-        <div class="project-header">
-          <div class="project-title-block">
-            <span class="project-tag">NLP · Machine Learning</span>
-            <h3>Advanced Email Spam Detection</h3>
-          </div>
-          <div class="project-stack">
-            <span>Python</span>
-            <span>NLP</span>
-            <span>Scikit-learn</span>
-          </div>
-        </div>
-
-        <div class="project-body">
-          <p>
-            Spam evolves fast. A model trained on last year's campaigns gets outpaced quickly because
-            spammers change phrasing, structure, and tactics. This project was designed around that
-            core challenge.
-          </p>
-          <p>
-            Rather than relying only on word frequencies, the pipeline extracts structural signals —
-            header anomalies, link density, sentence length patterns, and tone markers — that stay
-            predictive even as specific spam language changes. The classifier was tuned for both
-            accuracy and throughput so it stays practical at email scale.
-          </p>
-
-          <div class="flow" role="img" aria-label="Pipeline: email, structural features, classifier, spam or ham">
-            <span class="flow-node">Email</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node key">Structural features<small>headers · links · length · tone</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Classifier</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Spam / Ham</span>
-          </div>
         </div>
       </article>
 
