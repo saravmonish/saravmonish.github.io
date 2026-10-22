@@ -75,57 +75,64 @@ fadeEls.forEach(el => fadeObserver.observe(el));
    the viewport. Reads the number from the element's text.
    ============================================================ */
 function parseStatValue(text) {
-  // Strip non-numeric except dot — e.g. "10,000+" → 10000, "4.9%" → 4.9
-  return parseFloat(text.replace(/[^0-9.]/g, ''));
+  return Number(text.replace(/,/g, '').replace(/[+%]$/, ''));
 }
 
 function formatStatValue(raw, original) {
-  // Re-apply the original prefix/suffix (%, +, commas, etc.)
-  const hasComma  = original.includes(',');
-  const hasPlus   = original.includes('+');
-  const hasPercent= original.includes('%');
-
-  let result = hasComma
-    ? Math.round(raw).toLocaleString()
-    : raw % 1 !== 0 ? raw.toFixed(1) : String(Math.round(raw));
-
-  if (hasPlus)    result += '+';
-  if (hasPercent) result += '%';
-  return result;
+  const decimals = (original.match(/\.(\d+)/) || ['', ''])[1].length;
+  const number = raw.toLocaleString('en-US', {
+    useGrouping: original.includes(','),
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  return number + (original.endsWith('%') ? '%' : original.endsWith('+') ? '+' : '');
 }
 
+const statValues = new WeakMap();
+const statFrames = new WeakMap();
+const counterReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 function animateCounter(el) {
-  const original = el.textContent.trim();
-  const target   = parseStatValue(original);
-  if (isNaN(target)) return;
-
-  const duration = 1400; // ms
-  const start    = performance.now();
-
-  function step(now) {
-    const elapsed  = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    // Ease-out cubic
-    const eased    = 1 - Math.pow(1 - progress, 3);
-    el.textContent = formatStatValue(eased * target, original);
-    if (progress < 1) requestAnimationFrame(step);
+  const original = statValues.get(el);
+  const target = parseStatValue(original);
+  if (!Number.isFinite(target) || counterReducedMotion.matches) {
+    el.textContent = original;
+    return;
   }
 
-  requestAnimationFrame(step);
+  const duration = 1400;
+  const start = performance.now();
+  el.textContent = formatStatValue(0, original);
+
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = progress === 1 ? original : formatStatValue(eased * target, original);
+    if (progress < 1) statFrames.set(el, requestAnimationFrame(step));
+    else statFrames.delete(el);
+  }
+
+  statFrames.set(el, requestAnimationFrame(step));
 }
 
 const statNums = document.querySelectorAll('.stat-num');
-
 const statObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCounter(entry.target);
-      statObserver.unobserve(entry.target); // count up once only
+    const el = entry.target;
+    cancelAnimationFrame(statFrames.get(el));
+    statFrames.delete(el);
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+      animateCounter(el);
+    } else {
+      el.textContent = statValues.get(el);
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: [0, 0.5] });
 
-statNums.forEach(el => statObserver.observe(el));
+statNums.forEach(el => {
+  statValues.set(el, el.textContent.trim());
+  statObserver.observe(el);
+});
 
 /* ============================================================
    Visitor counter — live

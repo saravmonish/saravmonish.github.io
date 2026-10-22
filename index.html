@@ -121,7 +121,7 @@
       </p>
       <div class="hero-meta fade-up">
         <span class="hero-meta-item">Scopus-published</span>
-        <span class="hero-meta-item">2 ML projects</span>
+        <span class="hero-meta-item">4 ML projects</span>
         <span class="hero-meta-item">Computer vision</span>
         <span class="hero-meta-item">Explainable AI</span>
       </div>
@@ -190,81 +190,6 @@
   <section id="projects">
     <div class="container">
       <h2 class="fade-up">Projects</h2>
-
-      <!-- EcoScan -->
-      <article class="project-card fade-up">
-        <div class="project-header">
-          <div class="project-title-block">
-            <span class="project-tag">Computer Vision · Deep Learning</span>
-            <h3>EcoScan: Detecting Micro-Plastics in Waterways</h3>
-          </div>
-          <div class="project-stack">
-            <span>Python</span>
-            <span>YOLOv8</span>
-            <span>CBAM</span>
-            <span>PyTorch</span>
-            <span>OpenCV</span>
-          </div>
-        </div>
-
-        <div class="project-body">
-          <p>
-            Micro-plastics — particles smaller than 5mm — blend into sediment, surface reflections,
-            and organic matter. They're translucent, tiny, and nearly impossible for a standard
-            detection model to pick out in drone footage of a river.
-          </p>
-          <p>
-            I extended YOLOv8 with Convolutional Block Attention Modules (CBAM) inserted directly
-            after the C2f backbone blocks, before the multi-scale fusion stage. This forces the
-            network to suppress background noise — glare, ripples, colour variation — and amplify
-            the faint signals left by translucent particles, rather than treating everything equally.
-            Prior work only adds attention at the detection head; putting it earlier means the
-            benefit carries through every downstream stage.
-          </p>
-
-          <div class="flow" role="img" aria-label="EcoScan architecture: drone frame, YOLOv8 backbone, CBAM attention, multi-scale fusion, detections">
-            <span class="flow-node">Drone frame</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">YOLOv8 backbone<small>C2f blocks</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node key">CBAM attention<small>suppresses noise</small></span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Multi-scale fusion</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">Detections</span>
-          </div>
-
-          <!-- Real stats from the paper -->
-          <div class="stats-row">
-            <div class="stat">
-              <span class="stat-num">10,000+</span>
-              <span class="stat-label">Labeled training images</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">6</span>
-              <span class="stat-label">Debris classes (bottles, bags, foam, nets, other, micro-plastics)</span>
-            </div>
-            <div class="stat">
-              <span class="stat-num">4.9%</span>
-              <span class="stat-label">Micro-plastic share — severe class imbalance addressed with focal loss</span>
-            </div>
-          </div>
-
-          <p class="project-note">
-            Training handled a sharp imbalance — micro-plastics are only 4.9% of annotations while
-            macro-plastics account for 56%. I used focal loss to stop the model from ignoring them
-            entirely, then oversampled micro-plastic examples with domain-specific augmentations:
-            simulated murky water (brownish-green tint), Gaussian blur for camera defocus, and gamma
-            correction to replicate changing light. YOLOv8's mosaic augmentation added further
-            context diversity.
-          </p>
-          <a href="https://github.com/saravmonish/ecoscan"
-             target="_blank" rel="noopener" class="paper-link">
-            <span class="paper-meta">View source code and documentation</span>
-            <span class="paper-cta">GitHub →</span>
-          </a>
-        </div>
-      </article>
 
       <!-- Image Steganography -->
       <article class="project-card fade-up">
@@ -346,6 +271,180 @@
         </div>
       </article>
 
+      <!-- EcoScan -->
+      <article class="project-card fade-up">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Computer Vision · Deep Learning</span>
+            <h3>EcoScan: Detecting Micro-Plastics in Waterways</h3>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>YOLOv8</span>
+            <span>CBAM</span>
+            <span>PyTorch</span>
+            <span>OpenCV</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <p>
+            Micro-plastics — particles smaller than 5mm — blend into sediment, surface reflections,
+            and organic matter. They're translucent, tiny, and nearly impossible for a standard
+            detection model to pick out in drone footage of a river.
+          </p>
+          <p>
+            I extended YOLOv8 with Convolutional Block Attention Modules (CBAM) inserted directly
+            after the C2f backbone blocks, before the multi-scale fusion stage. This forces the
+            network to suppress background noise — glare, ripples, colour variation — and amplify
+            the faint signals left by translucent particles, rather than treating everything equally.
+            Prior work only adds attention at the detection head; putting it earlier means the
+            benefit carries through every downstream stage.
+          </p>
+
+          <div class="flow" role="img" aria-label="EcoScan architecture: drone frame, YOLOv8 backbone, CBAM attention, multi-scale fusion, detections">
+            <span class="flow-node">Drone frame</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">YOLOv8 backbone<small>C2f blocks</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">CBAM attention<small>suppresses noise</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Multi-scale fusion</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Detections</span>
+          </div>
+
+          <!-- Real stats from the paper -->
+          <div class="stats-row">
+            <div class="stat">
+              <span class="stat-num">10,000+</span>
+              <span class="stat-label">Labeled training images</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">6</span>
+              <span class="stat-label">Debris classes (bottles, bags, foam, nets, other, micro-plastics)</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">4.9%</span>
+              <span class="stat-label">Micro-plastic share — severe class imbalance addressed with focal loss</span>
+            </div>
+          </div>
+
+          <p class="project-note">
+            Training handled a sharp imbalance — micro-plastics are only 4.9% of annotations while
+            macro-plastics account for 56%. I used focal loss to stop the model from ignoring them
+            entirely, then oversampled micro-plastic examples with domain-specific augmentations:
+            simulated murky water (brownish-green tint), Gaussian blur for camera defocus, and gamma
+            correction to replicate changing light. YOLOv8's mosaic augmentation added further
+            context diversity.
+          </p>
+          <a href="https://github.com/saravmonish/ecoscan"
+             target="_blank" rel="noopener" class="paper-link">
+            <span class="paper-meta">View source code and documentation</span>
+            <span class="paper-cta">GitHub →</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Ongoing: RGB–3D industrial defect detection -->
+      <article class="project-card fade-up">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Computer Vision · Multimodal Learning</span>
+            <h3>Data-Efficient Industrial Defect Detection Using RGB Images and 3D Geometry</h3>
+            <span class="wip-badge">Ongoing · Research project</span>
+          </div>
+          <div class="project-stack">
+            <span>Python</span><span>PyTorch</span><span>Open3D</span><span>EfficientNet-B0</span><span>PatchCore</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>
+            Defects can appear as changes in surface colour, texture, or shape. I'm investigating
+            whether combining RGB images with 3D geometry improves industrial anomaly detection
+            when only a limited number of defect-free training examples are available.
+          </p>
+          <p>
+            The study uses MVTec 3D-AD, initially focusing on bagel, carrot, and cookie objects.
+            The planned approach aligns EfficientNet-B0 visual features with Fast Point Feature
+            Histograms (FPFH) describing local 3D geometry. A PatchCore-style memory bank of normal
+            features provides a reference for scoring new objects and locating potential defects.
+          </p>
+          <div class="flow" role="img" aria-label="Planned defect detection pipeline: RGB images and 3D geometry, visual and geometric features, feature alignment and fusion, normal memory bank, anomaly score and map">
+            <span class="flow-node">RGB + 3D scans</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">EfficientNet + FPFH<small>appearance and geometry</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">Feature fusion<small>aligned descriptors</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Normal memory bank</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Anomaly score + map</span>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><span class="stat-num">3</span><span class="stat-label">Object categories in the initial study</span></div>
+            <div class="stat"><span class="stat-num">3</span><span class="stat-label">Planned training-data levels: 25%, 50%, and 100%</span></div>
+            <div class="stat"><span class="stat-num">5</span><span class="stat-label">Methods planned for comparison</span></div>
+          </div>
+          <p class="project-note">
+            Ongoing work. The evaluation will compare feature fusion with RGB-only, 3D-only,
+            late-fusion, and RGB autoencoder baselines across three random seeds. Planned measures
+            include image-level AUROC, pixel-level AUROC and AUPRO, runtime, and memory use.
+            Results will be added after the experiments are complete.
+          </p>
+        </div>
+      </article>
+
+      <!-- Ongoing: Bitcoin transaction detection under temporal shift -->
+      <article class="project-card fade-up">
+        <div class="project-header">
+          <div class="project-title-block">
+            <span class="project-tag">Graph Neural Networks · Temporal Shift</span>
+            <h3>Illicit Bitcoin Transaction Detection Under Temporal Shift</h3>
+            <span class="wip-badge">Ongoing · Research project</span>
+          </div>
+          <div class="project-stack">
+            <span>Python</span><span>PyTorch</span><span>PyTorch Geometric</span><span>GraphSAGE</span><span>scikit-learn</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>
+            A drop in detection precision does not always mean a model has stopped learning useful
+            patterns. When illicit transactions become rarer, precision can fall even without a
+            comparable change in the model's ability to distinguish them. I'm studying how to
+            separate model degradation from changes in the underlying illicit-transaction rate.
+          </p>
+          <p>
+            Using the Elliptic transaction graph, the study compares Logistic Regression, Random
+            Forest, a multilayer perceptron, and GraphSAGE to examine whether graph connections
+            add value over transaction features. Chronological training, validation, and test
+            windows keep future observations out of model fitting and tuning.
+          </p>
+          <div class="flow" role="img" aria-label="Bitcoin evaluation pipeline: Elliptic transaction graph, chronological split, feature and graph models, per-step evaluation, base-rate shift analysis">
+            <span class="flow-node">Elliptic graph</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Chronological split<small>train / validate / test</small></span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node key">Feature vs. graph models</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Per-step evaluation</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-node">Base-rate analysis</span>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><span class="stat-num">203,769</span><span class="stat-label">Transaction nodes in the Elliptic dataset</span></div>
+            <div class="stat"><span class="stat-num">49</span><span class="stat-label">Time steps for chronological evaluation</span></div>
+            <div class="stat"><span class="stat-num">4</span><span class="stat-label">Feature-based and graph-based models in the study</span></div>
+          </div>
+          <p class="project-note">
+            Ongoing work. The evaluation plan uses time steps 1–30 for training, 31–34 for validation,
+            and 35–49 for testing. Per-step precision–recall performance and illicit-class F1 will
+            be analysed alongside class prevalence, calibration, and bootstrap uncertainty.
+            An unlabelled drift monitor is a stretch goal; final findings are not yet reported here.
+          </p>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -370,6 +469,17 @@
             <li>Scikit-learn</li>
             <li>Computer Vision</li>
             <li>NLP</li>
+          </ul>
+        </div>
+        <div class="skill-group fade-up">
+          <h4>Generative AI</h4>
+          <ul>
+            <li>Large Language Models (LLMs)</li>
+            <li>Retrieval-Augmented Generation (RAG)</li>
+            <li>Model Context Protocol (MCP)</li>
+            <li>Vector Databases</li>
+            <li>Tokenization</li>
+            <li>Fine-tuning</li>
           </ul>
         </div>
         <div class="skill-group fade-up">
