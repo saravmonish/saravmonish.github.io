@@ -33,7 +33,12 @@
   <!-- JSON-LD structured data — tells Google exactly who this page is about -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://monishsaravanan.dev/#profile",
+  "url": "https://monishsaravanan.dev/",
+  "name": "Monish Saravanan — AI & ML Engineer",
+  "mainEntity": {
     "@type": "Person",
     "name": "Monish Saravanan",
     "url": "https://monishsaravanan.dev/",
@@ -42,14 +47,27 @@
     "description": "Masters student in AI & Machine Learning at Adelaide University. Specialising in computer vision, deep learning, and NLP.",
     "alumniOf": {
       "@type": "CollegeOrUniversity",
-      "name": "Adelaide University"
+      "name": "Sathyabama Institute of Science and Technology"
     },
     "sameAs": [
       "https://github.com/saravmonish",
       "https://www.linkedin.com/in/monish-saravanan-6a9023446/"
     ],
-    "knowsAbout": ["Machine Learning", "Computer Vision", "Deep Learning", "Python", "NLP", "Image Steganography"]
+    "knowsAbout": [
+      "Machine Learning",
+      "Computer Vision",
+      "Deep Learning",
+      "Python",
+      "NLP",
+      "Image Steganography"
+    ],
+    "@id": "https://monishsaravanan.dev/#person",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Adelaide University"
+    }
   }
+}
   </script>
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
